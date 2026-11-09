@@ -1,0 +1,573 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Royal Wedding Agreement</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Noto+Serif+Bengali:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+ --gold:#c6a15b;
+ --gold2:#e8d19a;
+ --ivory:#fffaf0;
+ --ink:#4b3924;
+ --paper:#fffdf8;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:var(--ivory);
+ color:var(--ink);
+ font-family:'Noto Serif Bengali',serif;
+ transition:.3s;
+}
+body.dark{
+ --ivory:#17140f;
+ --paper:#252018;
+ --ink:#f2dfb8;
+}
+button{
+ border:0;
+ cursor:pointer;
+ font-family:inherit;
+}
+header{
+ text-align:center;
+ padding:30px 12px;
+ border-bottom:1px solid var(--gold);
+ background:var(--paper);
+}
+.logo{
+ font-family:'Playfair Display',serif;
+ font-size:27px;
+ color:var(--gold);
+ letter-spacing:3px;
+}
+.sub{font-size:12px;letter-spacing:3px}
+nav{
+ display:flex;
+ justify-content:center;
+ flex-wrap:wrap;
+ gap:8px;
+ padding:12px;
+ background:var(--paper);
+}
+nav button,.gold-btn{
+ background:linear-gradient(135deg,#b58a40,#eddaa5,#b58a40);
+ color:#382711;
+ padding:11px 17px;
+ border-radius:5px;
+ font-weight:bold;
+}
+section{
+ max-width:850px;
+ margin:28px auto;
+ padding:28px 18px;
+ background:var(--paper);
+ border:1px solid var(--gold);
+ border-radius:12px;
+ box-shadow:0 5px 25px #8b71331a;
+ text-align:center;
+}
+h2{
+ font-family:'Playfair Display','Noto Serif Bengali',serif;
+ color:var(--gold);
+}
+.arabic{
+ font-family:'Amiri',serif;
+ font-size:29px;
+ line-height:2;
+ color:var(--gold);
+ direction:rtl;
+}
+.ornament{
+ color:var(--gold);
+ font-size:25px;
+ margin:15px;
+}
+p{line-height:2}
+.story{
+ padding:16px;
+ margin:12px 0;
+ border-left:3px solid var(--gold);
+ background:#c6a15b0b;
+ text-align:left;
+}
+#envelope{
+ position:fixed;
+ inset:0;
+ z-index:20;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:#17120c;
+}
+.envelope-content{
+ text-align:center;
+ color:#f2d69a;
+ padding:20px;
+}
+.envelope{
+ width:min(290px,80vw);
+ height:190px;
+ margin:25px auto;
+ background:linear-gradient(135deg,#b38b43,#f0dca8,#a77c35);
+ border:3px solid #f9e7b7;
+ border-radius:8px;
+ display:grid;
+ place-items:center;
+ color:#543a16;
+ font-size:45px;
+ box-shadow:0 0 35px #c6a15b55;
+}
+#envelope.hide{display:none}
+.sign-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+}
+.sign-card{
+ border:1px solid var(--gold);
+ border-radius:10px;
+ padding:10px;
+ min-width:0;
+}
+canvas{
+ width:100%;
+ height:155px;
+ background:#fffdf7;
+ border:1px dashed #c6a15b;
+ border-radius:6px;
+ touch-action:none;
+ display:block;
+}
+.sign-card button{
+ margin:7px 2px;
+}
+.status{
+ color:#a17c35;
+ font-size:12px;
+}
+.certificate{
+ border:8px double var(--gold);
+ padding:25px 15px;
+ background:var(--paper);
+}
+.cert-title{
+ font-family:'Playfair Display',serif;
+ font-size:29px;
+ color:var(--gold);
+}
+.cert-signatures{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+ margin-top:25px;
+}
+.cert-signatures img{
+ width:100%;
+ height:100px;
+ object-fit:contain;
+ background:white;
+ border-bottom:1px solid var(--gold);
+}
+#qr{
+ margin:20px auto;
+ display:flex;
+ justify-content:center;
+}
+footer{
+ text-align:center;
+ padding:30px;
+ color:var(--gold);
+}
+@media(max-width:480px){
+ .sign-grid{gap:7px}
+ .sign-card{padding:6px}
+ canvas{height:125px}
+ .cert-title{font-size:22px}
+ section{margin:15px 9px;padding:20px 12px}
+}
+@media print{
+ nav,#envelope,.no-print,footer{display:none!important}
+ body{background:white!important;color:#382711!important}
+ section{box-shadow:none;break-inside:avoid}
+ #certificate{display:block!important}
+}
+</style>
+</head>
+
+<body>
+
+<div id="envelope">
+ <div class="envelope-content">
+  <div style="letter-spacing:4px">A SPECIAL PROMISE</div>
+  <div class="envelope">💌</div>
+  <h2 style="color:#f0d69d">A Beautiful Beginning</h2>
+  <p>একটি সুন্দর প্রতিশ্রুতির গল্প</p>
+  <button class="gold-btn" onclick="openEnvelope()">
+   OPEN OUR LETTER ✨
+  </button>
+ </div>
+</div>
+
+<header>
+ <div class="logo">WEDDING AGREEMENT</div>
+ <p class="sub">A PROMISE OF TOGETHERNESS</p>
+ <div class="ornament">❦</div>
+ <button class="gold-btn no-print" onclick="toggleDark()">
+  ☾ Dark Mode
+ </button>
+ <button class="gold-btn no-print" onclick="toggleLanguage()">
+  বাংলা / English
+ </button>
+</header>
+
+<nav class="no-print">
+ <button onclick="go('dua')">Dua</button>
+ <button onclick="go('story')">Our Story</button>
+ <button onclick="go('promise')">Promises</button>
+ <button onclick="go('signatures')">Signatures</button>
+ <button onclick="go('certificate')">Certificate</button>
+</nav>
+
+<section id="dua">
+ <div class="ornament">❦</div>
+ <h2>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h2>
+ <div class="arabic">
+ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ
+ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا
+ وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
+ </div>
+ <p>
+  অর্থ: তাঁর নিদর্শনগুলোর মধ্যে একটি হলো,
+  তিনি তোমাদের জন্য তোমাদের মধ্য থেকেই
+  জীবনসঙ্গী সৃষ্টি করেছেন, যাতে তোমরা
+  তাদের কাছে প্রশান্তি পাও এবং তিনি
+  তোমাদের মধ্যে ভালোবাসা ও দয়া সৃষ্টি করেছেন।
+ </p>
+ <p class="status">সূরা আর-রূম: ২১</p>
+ <div class="ornament">✦ ❦ ✦</div>
+</section>
+
+<section id="story">
+ <h2>Our Beautiful Story</h2>
+ <div class="ornament">❦</div>
+
+ <div class="story">
+  <h3>একসঙ্গে থাকার প্রতিশ্রুতি</h3>
+  জীবনের প্রতিটি অধ্যায়ে একে অপরের প্রতি
+  সম্মান, বিশ্বাস এবং দায়িত্বশীলতা বজায় রাখব।
+ </div>
+
+ <div class="story">
+  <h3>বিশ্বাস ও সম্মান</h3>
+  সম্পর্কের সৌন্দর্য শুধু ভালোবাসায় নয়,
+  বরং একে অপরকে বোঝা, সম্মান করা এবং
+  বিশ্বাস রাখার মধ্যেও রয়েছে।
+ </div>
+
+ <div class="story">
+  <h3>কঠিন সময়েও পাশে থাকা</h3>
+  সুখের সময় যেমন একসঙ্গে আনন্দ করব,
+  তেমনি কঠিন সময়েও ধৈর্য ও সহমর্মিতা
+  নিয়ে একে অপরকে সহযোগিতা করব।
+ </div>
+
+ <div class="story">
+  <h3>একটি সুন্দর ভবিষ্যৎ</h3>
+  আমাদের প্রতিটি আগামী দিন হোক
+  শান্তি, দয়া, সততা ও সুন্দর স্মৃতিতে ভরা।
+ </div>
+</section>
+
+<section id="promise">
+ <h2>Our Promises</h2>
+ <div class="ornament">✦</div>
+ <p>01 — I promise to respect you.</p>
+ <p>02 — I promise to be honest.</p>
+ <p>03 — I promise to listen and understand.</p>
+ <p>04 — I promise to value your feelings.</p>
+ <p>05 — I promise to build a peaceful future.</p>
+ <p>06 — I promise to stand beside you with kindness.</p>
+</section>
+
+<section id="signatures">
+ <h2>Digital Signature Agreement</h2>
+ <p>প্রথম দুটি স্বাক্ষর জমা হলে আর পরিবর্তন করা যাবে না।</p>
+
+ <div class="sign-grid">
+  <div class="sign-card">
+   <h3>First Signature</h3>
+   <canvas id="pad1" width="700" height="300"></canvas>
+   <div class="status" id="status1">Available</div>
+   <button class="gold-btn no-print" onclick="clearPad(1)">Clear</button>
+   <button class="gold-btn no-print" onclick="submitSign(1)">Submit</button>
+  </div>
+
+  <div class="sign-card">
+   <h3>Second Signature</h3>
+   <canvas id="pad2" width="700" height="300"></canvas>
+   <div class="status" id="status2">Available</div>
+   <button class="gold-btn no-print" onclick="clearPad(2)">Clear</button>
+   <button class="gold-btn no-print" onclick="submitSign(2)">Submit</button>
+  </div>
+ </div>
+
+ <p id="syncStatus" class="status">
+  Connecting to Firebase...
+ </p>
+</section>
+
+<section id="certificate">
+ <div class="certificate">
+  <div class="ornament">❦</div>
+  <div class="cert-title">Certificate of Togetherness</div>
+  <p>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+  <p>
+   A DIGITAL PROMISE OF LOVE, TRUST,
+   RESPECT AND TOGETHERNESS
+  </p>
+  <div class="ornament">✦</div>
+
+  <p>
+   এই সার্টিফিকেট দুটি সংরক্ষিত ডিজিটাল
+   স্বাক্ষর এবং পারস্পরিক প্রতিশ্রুতির
+   স্মারক হিসেবে তৈরি করা হয়েছে।
+  </p>
+
+  <div class="cert-signatures">
+   <div>
+    <img id="cert1" alt="First Signature">
+    <small>First Signature</small>
+   </div>
+   <div>
+    <img id="cert2" alt="Second Signature">
+    <small>Second Signature</small>
+   </div>
+  </div>
+
+  <div class="ornament">❦</div>
+  <p id="certStatus">Waiting for both signatures</p>
+  <div id="qr"></div>
+  <small>Digital Keepsake • Royal Edition</small>
+ </div>
+
+ <button class="gold-btn no-print" onclick="window.print()">
+  Save / Print PDF
+ </button>
+</section>
+
+<footer>
+ <div class="ornament">❦</div>
+ ROYAL WEDDING AGREEMENT
+ <p>Made with respect, trust and care.</p>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+// FIREBASE CONFIGURATION
+const firebaseConfig = {
+ apiKey: "AIzaSyADiUTVBMYbuC-1qprsvJz8wjjxHF_wKTQ",
+ authDomain: "wedding-agreement-ea823.firebaseapp.com",
+ databaseURL: "https://wedding-agreement-ea823-default-rtdb.firebaseio.com",
+ projectId: "wedding-agreement-ea823",
+ storageBucket: "wedding-agreement-ea823.firebasestorage.app",
+ messagingSenderId: "775414069022",
+ appId: "1:775414069022:web:c985c581520afbc8703b0f",
+ measurementId: "G-0XRH7QF111"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const signaturesRef = db.ref("signatures");
+
+let drawings = {1:false,2:false};
+let locked = {1:false,2:false};
+let pads = {};
+
+function openEnvelope(){
+ document.getElementById("envelope").classList.add("hide");
+}
+
+function go(id){
+ document.getElementById(id).scrollIntoView({
+  behavior:"smooth"
+ });
+}
+
+function toggleDark(){
+ document.body.classList.toggle("dark");
+}
+
+let english = false;
+function toggleLanguage(){
+ english = !english;
+ document.documentElement.lang = english ? "en":"bn";
+ alert(english ? "English mode selected" : "বাংলা মোড চালু হয়েছে");
+}
+
+// SIGNATURE DRAWING
+[1,2].forEach(n=>{
+ const canvas=document.getElementById("pad"+n);
+ const ctx=canvas.getContext("2d");
+ pads[n]={canvas,ctx,drawing:false,last:null};
+
+ ctx.lineWidth=3;
+ ctx.lineCap="round";
+ ctx.lineJoin="round";
+ ctx.strokeStyle="#30210f";
+
+ canvas.addEventListener("pointerdown",e=>{
+  if(locked[n])return;
+  pads[n].drawing=true;
+  const r=canvas.getBoundingClientRect();
+  const x=(e.clientX-r.left)*canvas.width/r.width;
+  const y=(e.clientY-r.top)*canvas.height/r.height;
+  pads[n].last={x,y};
+  canvas.setPointerCapture(e.pointerId);
+ });
+
+ canvas.addEventListener("pointermove",e=>{
+  const p=pads[n];
+  if(!p.drawing || locked[n])return;
+
+  const r=canvas.getBoundingClientRect();
+  const x=(e.clientX-r.left)*canvas.width/r.width;
+  const y=(e.clientY-r.top)*canvas.height/r.height;
+
+  p.ctx.beginPath();
+  p.ctx.moveTo(p.last.x,p.last.y);
+  p.ctx.lineTo(x,y);
+  p.ctx.stroke();
+
+  p.last={x,y};
+  drawings[n]=true;
+ });
+
+ function stop(){
+  pads[n].drawing=false;
+ }
+ canvas.addEventListener("pointerup",stop);
+ canvas.addEventListener("pointercancel",stop);
+});
+
+function clearPad(n){
+ if(locked[n])return;
+ const p=pads[n];
+ p.ctx.clearRect(0,0,p.canvas.width,p.canvas.height);
+ drawings[n]=false;
+}
+
+async function submitSign(n){
+ if(locked[n]){
+  alert("এই স্বাক্ষর ইতিমধ্যে স্থায়ীভাবে সংরক্ষিত হয়েছে।");
+  return;
+ }
+
+ if(!drawings[n]){
+  alert("আগে Signature আঁকুন।");
+  return;
+ }
+
+ const canvas=pads[n].canvas;
+ const image=canvas.toDataURL("image/png");
+
+ try{
+  const ref=db.ref("signatures/slot"+n);
+
+  const result=await ref.transaction(current=>{
+   if(current===null){
+    return {
+     image:image,
+     createdAt:Date.now()
+    };
+   }
+   return;
+  });
+
+  if(result.committed){
+   alert("Signature successfully saved!");
+  }else{
+   alert("এই Signature slot অন্য কেউ ইতিমধ্যে পূরণ করেছেন।");
+  }
+ }catch(error){
+  alert("Error: "+error.message);
+ }
+}
+
+// LIVE DATABASE SYNC
+signaturesRef.on("value",snapshot=>{
+ const data=snapshot.val() || {};
+
+ [1,2].forEach(n=>{
+  const item=data["slot"+n];
+  const p=pads[n];
+
+  if(item && item.image){
+   locked[n]=true;
+   drawings[n]=false;
+
+   p.ctx.clearRect(0,0,p.canvas.width,p.canvas.height);
+
+   const img=new Image();
+   img.onload=()=>{
+    p.ctx.clearRect(0,0,p.canvas.width,p.canvas.height);
+    p.ctx.drawImage(img,0,0,p.canvas.width,p.canvas.height);
+   };
+   img.src=item.image;
+
+   document.getElementById("status"+n).textContent=
+    "✓ Permanently Saved";
+
+   document.getElementById("cert"+n).src=item.image;
+  }else{
+   locked[n]=false;
+   document.getElementById("status"+n).textContent="Available";
+  }
+
+  p.canvas.style.pointerEvents=locked[n]?"none":"auto";
+ });
+
+ const complete=!!data.slot1 && !!data.slot2;
+
+ document.getElementById("certStatus").textContent=
+ complete ? "✓ Both signatures successfully saved" :
+ "Waiting for both signatures";
+
+ document.getElementById("syncStatus").textContent=
+ complete ? "✓ Both signatures synchronized" :
+ "Waiting for signatures...";
+},error=>{
+ document.getElementById("syncStatus").textContent=
+ "Database error: "+error.message;
+});
+
+// QR VERIFICATION
+if(location.protocol==="https:"){
+ new QRCode(document.getElementById("qr"),{
+  text:location.origin+location.pathname+"?verify=1",
+  width:110,
+  height:110
+ });
+}
+
+// READ ONLY VERIFICATION MODE
+if(new URLSearchParams(location.search).get("verify")==="1"){
+ document.getElementById("envelope").classList.add("hide");
+ document.querySelectorAll(".no-print").forEach(el=>{
+  if(el.closest("#signatures"))el.style.display="none";
+ });
+ go("certificate");
+}
+</script>
+
+</body>
+  </html>
+  
